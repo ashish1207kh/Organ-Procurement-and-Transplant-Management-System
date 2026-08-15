@@ -5,6 +5,6 @@
   "scripts": {
     "postinstall": "npm --prefix server install && npm --prefix client install",
     "start": "node server/src/server.js",
-    "build": "npm --prefix client run build"
+    "build": "npm --prefix client run build && node -e \"const fs=require('fs'); if(fs.existsSync('client/dist')){ fs.cpSync('client/dist', 'dist', {recursive:true}); fs.cpSync('client/dist', 'build', {recursive:true}); }\""
   }
 }
