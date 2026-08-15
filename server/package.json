@@ -1,11 +1,11 @@
 {
   "name": "optm-server",
   "version": "1.0.0",
-  "description": "Organ Procurement and Transplant Management System API",
+  "description": "Organ Procurement and Transplant Management System Express API Backend",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
+    "dev": "nodemon src/server.js",
     "test": "node src/utils/runTests.js"
   },
   "dependencies": {
@@ -17,5 +17,12 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.10.1",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  },
+  "overrides": {
+    "tar": "^7.5.3",
+    "@tootallnate/once": "^2.0.1"
   }
 }
