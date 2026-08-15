@@ -17,7 +17,7 @@ export default function LandingPage() {
             <div className="lg:col-span-7 space-y-6">
               <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-xs font-semibold">
                 <Activity className="w-3.5 h-3.5 text-sky-600" />
-                <span>Centralized Healthcare Platform</span>
+                <span>Healthcare Technology Platform</span>
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
@@ -56,38 +56,33 @@ export default function LandingPage() {
                 </Link>
               </div>
 
-              {/* Trust Stats */}
+              {/* Operational Metrics Counter Bar */}
               <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-200 text-left">
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">100%</h3>
-                  <p className="text-[11px] text-slate-500">Voluntary Pledges</p>
+                  <h3 className="text-xl font-extrabold text-slate-900">100%</h3>
+                  <p className="text-[11px] text-slate-500 font-medium">Voluntary Pledges</p>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">5-Factor</h3>
-                  <p className="text-[11px] text-slate-500">Matching Engine</p>
+                  <h3 className="text-xl font-extrabold text-slate-900">5-Factor</h3>
+                  <p className="text-[11px] text-slate-500 font-medium">Matching Engine</p>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">Real-Time</h3>
-                  <p className="text-[11px] text-slate-500">Queue Rank Position</p>
+                  <h3 className="text-xl font-extrabold text-slate-900">Real-Time</h3>
+                  <p className="text-[11px] text-slate-500 font-medium">Queue Rank Position</p>
                 </div>
               </div>
             </div>
 
-            {/* Operational Flow Card Preview */}
+            {/* Live Operational Status Preview Card */}
             <div className="lg:col-span-5">
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-5">
                 <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                  <div className="flex items-center space-x-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center">
-                      <HeartHandshake className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-slate-900">System Workflow Preview</h4>
-                      <p className="text-[10px] text-slate-400">Match & Allocation Protocol</p>
-                    </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-900">Operational Matching Workflow</h4>
+                    <p className="text-[10px] text-slate-400">Donor Organ Matching System</p>
                   </div>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">
-                    Active System
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">
+                    Active Operations
                   </span>
                 </div>
 
@@ -95,14 +90,14 @@ export default function LandingPage() {
                   <div className="p-3 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
                     <div>
                       <p className="font-bold text-slate-800">Organ Pledge: Kidney (O+)</p>
-                      <p className="text-[11px] text-slate-400">Facility: Springfield General • Viability 36h</p>
+                      <p className="text-[11px] text-slate-400">Springfield General Hospital • Viability 36h</p>
                     </div>
                     <span className="font-bold text-sky-700">Available</span>
                   </div>
 
                   <div className="p-3 rounded-xl bg-sky-50/60 border border-sky-100 flex items-center justify-between">
                     <div>
-                      <p className="font-bold text-sky-900">Compatibility Score: 94.5%</p>
+                      <p className="font-bold text-sky-900">Match Compatibility: 94.5%</p>
                       <p className="text-[11px] text-sky-700">Candidate: Arun Kumar (Urgency: High)</p>
                     </div>
                     <span className="font-bold text-emerald-700">Queue Rank #1</span>
@@ -111,7 +106,7 @@ export default function LandingPage() {
 
                 <div className="p-3 bg-amber-50/80 rounded-xl border border-amber-200 text-[11px] text-amber-900 flex items-start space-x-2">
                   <ShieldCheck className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                  <span>Objective 5-factor scoring incorporates blood compatibility, clinical urgency, waiting duration, and distance.</span>
+                  <span>Objective 5-factor scoring incorporates blood group compatibility, clinical urgency, waiting duration, and facility proximity.</span>
                 </div>
               </div>
             </div>
