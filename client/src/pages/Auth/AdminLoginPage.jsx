@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShieldCheck, Lock, KeyRound } from 'lucide-react';
+import { ShieldCheck, KeyRound } from 'lucide-react';
 import MainLayout from '../../layouts/MainLayout';
 import { FormInput } from '../../components/FormInput';
 import { ErrorMessage } from '../../components/LoadingSpinner';
@@ -32,7 +32,7 @@ export default function AdminLoginPage() {
         navigate('/admin/dashboard');
       }
     } catch (err) {
-      setServerError(err.response?.data?.message || 'Admin authentication failed.');
+      setServerError('We couldn\'t sign you in with those administrator credentials. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -42,24 +42,24 @@ export default function AdminLoginPage() {
     <MainLayout>
       <div className="py-16 bg-slate-900 min-h-[calc(100vh-10rem)] flex flex-col justify-center">
         <div className="max-w-md mx-auto w-full px-4">
-          <div className="bg-slate-800 rounded-3xl p-8 shadow-2xl border border-slate-700 space-y-6 text-white">
+          <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 shadow-xl space-y-6 text-white">
             
             {/* Header */}
-            <div className="text-center space-y-2">
-              <div className="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center mx-auto shadow-lg shadow-sky-500/30">
-                <ShieldCheck className="w-7 h-7" />
+            <div className="text-center space-y-1.5">
+              <div className="w-10 h-10 rounded-xl bg-sky-500 text-white flex items-center justify-center mx-auto shadow-md">
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <h1 className="text-2xl font-extrabold">Administrator Portal</h1>
-              <p className="text-xs text-slate-400">Authorized Medical Operations Management</p>
+              <h1 className="text-2xl font-bold">Administrator Operations</h1>
+              <p className="text-xs text-slate-400">Authorized Medical Management Portal</p>
             </div>
 
             {/* Demo Admin Credentials Box */}
-            <div className="p-3 bg-slate-700/60 rounded-xl border border-slate-600 text-xs text-slate-300 space-y-1">
+            <div className="p-3 bg-slate-700/60 rounded-xl border border-slate-600 text-[11px] text-slate-300 space-y-1">
               <p className="font-bold text-sky-400 flex items-center space-x-1">
                 <KeyRound className="w-3.5 h-3.5" />
                 <span>Demo Admin Credentials:</span>
               </p>
-              <p>Username / Email: <code className="bg-slate-900 px-1 py-0.5 rounded text-sky-300">admin@optm.org</code> or <code className="bg-slate-900 px-1 py-0.5 rounded text-sky-300">admin</code></p>
+              <p>Username / Email: <code className="bg-slate-900 px-1 py-0.5 rounded text-sky-300">admin@optm.org</code></p>
               <p>Password: <code className="bg-slate-900 px-1 py-0.5 rounded text-sky-300">Admin@123</code></p>
             </div>
 
@@ -88,15 +88,15 @@ export default function AdminLoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-xl font-bold text-sm text-white gradient-accent shadow-lg shadow-sky-500/25 hover:shadow-xl transition-all disabled:opacity-50 mt-2"
+                className="w-full py-3 rounded-xl font-bold text-xs text-white bg-sky-600 hover:bg-sky-700 shadow-sm transition-colors disabled:opacity-50 mt-2"
               >
-                {loading ? 'Authenticating Admin...' : 'Log In to Administrator Portal'}
+                {loading ? 'Authenticating...' : 'Sign in as Administrator'}
               </button>
             </form>
 
             <div className="pt-4 border-t border-slate-700 text-center text-xs text-slate-400">
               <Link to="/role-selection" className="hover:text-white transition-colors">
-                ← Return to Role Selection
+                ← Return to Portal Selection
               </Link>
             </div>
 

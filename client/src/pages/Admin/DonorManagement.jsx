@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Eye, Edit, ShieldCheck } from 'lucide-react';
+import { Users, Eye } from 'lucide-react';
 import AdminLayout from '../../layouts/AdminLayout';
 import DataTable from '../../components/DataTable';
 import StatusBadge from '../../components/StatusBadge';
 import Modal from '../../components/Modal';
-import { LoadingSpinner, ErrorMessage } from '../../components/LoadingSpinner';
+import { PageHeader } from '../../components/PageHeader';
+import { ErrorMessage } from '../../components/LoadingSpinner';
 import api from '../../services/api';
 
 export default function DonorManagement() {
@@ -36,7 +37,7 @@ export default function DonorManagement() {
         setTotal(res.data.pagination.total);
       }
     } catch (err) {
-      setError('Failed to fetch donors list.');
+      setError('We couldn\'t load the donor registry right now. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -57,7 +58,7 @@ export default function DonorManagement() {
     {
       header: 'Blood Group',
       accessor: 'blood_group',
-      render: (row) => <span className="font-extrabold text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-100">{row.blood_group}</span>
+      render: (row) => <span className="font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded border border-sky-100">{row.blood_group}</span>
     },
     { header: 'Pledged Organs', accessor: 'organ_list', render: (row) => row.organ_list || 'Kidney' },
     { header: 'Location', accessor: 'city', render: (row) => `${row.city}, ${row.state}` },
@@ -71,10 +72,10 @@ export default function DonorManagement() {
             setSelectedDonor(row);
             setModalOpen(true);
           }}
-          className="px-3 py-1.5 rounded-lg text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 transition-colors flex items-center space-x-1"
+          className="px-3 py-1.5 rounded-xl text-xs font-semibold text-sky-700 bg-sky-50 hover:bg-sky-100 transition-colors flex items-center space-x-1"
         >
           <Eye className="w-3.5 h-3.5" />
-          <span>View Details</span>
+          <span>View Profile</span>
         </button>
       )
     }
@@ -83,32 +84,32 @@ export default function DonorManagement() {
   return (
     <AdminLayout role="ADMIN">
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-extrabold text-slate-900">Donor Management</h1>
-            <p className="text-xs text-slate-500">Search, filter, and review organ donor pledges and consent records</p>
-          </div>
-          <div className="flex items-center space-x-3">
-            <select
-              value={bloodGroupFilter}
-              onChange={(e) => setBloodGroupFilter(e.target.value)}
-              className="px-3 py-2 text-xs border border-slate-200 rounded-lg bg-white font-medium"
-            >
-              <option value="">All Blood Groups</option>
-              {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(bg => <option key={bg} value={bg}>{bg}</option>)}
-            </select>
+        <PageHeader
+          title="Donor Registry"
+          description="Review organ donor pledges, contact information, and consent statuses."
+          actions={
+            <div className="flex items-center space-x-2">
+              <select
+                value={bloodGroupFilter}
+                onChange={(e) => setBloodGroupFilter(e.target.value)}
+                className="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white font-medium"
+              >
+                <option value="">All Blood Groups</option>
+                {['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'].map(bg => <option key={bg} value={bg}>{bg}</option>)}
+              </select>
 
-            <select
-              value={consentFilter}
-              onChange={(e) => setConsentFilter(e.target.value)}
-              className="px-3 py-2 text-xs border border-slate-200 rounded-lg bg-white font-medium"
-            >
-              <option value="">All Consent Statuses</option>
-              <option value="ACCEPTED">ACCEPTED</option>
-              <option value="WITHDRAWN">WITHDRAWN</option>
-            </select>
-          </div>
-        </div>
+              <select
+                value={consentFilter}
+                onChange={(e) => setConsentFilter(e.target.value)}
+                className="px-3 py-2 text-xs border border-slate-200 rounded-xl bg-white font-medium"
+              >
+                <option value="">All Consent Statuses</option>
+                <option value="ACCEPTED">ACCEPTED</option>
+                <option value="WITHDRAWN">WITHDRAWN</option>
+              </select>
+            </div>
+          }
+        />
 
         {error && <ErrorMessage message={error} type="error" />}
 
@@ -123,17 +124,19 @@ export default function DonorManagement() {
           page={page}
           limit={10}
           onPageChange={setPage}
+          emptyTitle="No donor records found"
+          emptyDescription="New organ donor registrations will appear here."
         />
 
         {/* Modal View Details */}
-        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Donor Profile & Pledge Details">
+        <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Donor Profile Details">
           {selectedDonor && (
             <div className="space-y-4 text-xs">
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-2">
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
                 <h4 className="font-bold text-sm text-slate-900">{selectedDonor.first_name} {selectedDonor.last_name}</h4>
                 <p>Email: {selectedDonor.email} | Phone: {selectedDonor.phone}</p>
                 <p>Blood Group: <strong className="text-sky-600">{selectedDonor.blood_group}</strong> | DOB: {selectedDonor.date_of_birth}</p>
-                <p>Location: {selectedDonor.address}, {selectedDonor.city}, {selectedDonor.state}</p>
+                <p>Address: {selectedDonor.address}, {selectedDonor.city}, {selectedDonor.state}</p>
               </div>
 
               <div className="space-y-1.5 border-t border-slate-100 pt-3">
@@ -145,7 +148,7 @@ export default function DonorManagement() {
               </div>
 
               <div className="pt-4 flex justify-end">
-                <button onClick={() => setModalOpen(false)} className="px-4 py-2 bg-slate-100 font-semibold text-slate-700 rounded-lg">Close</button>
+                <button onClick={() => setModalOpen(false)} className="px-4 py-2 bg-slate-100 font-semibold text-slate-700 rounded-xl text-xs">Close</button>
               </div>
             </div>
           )}
