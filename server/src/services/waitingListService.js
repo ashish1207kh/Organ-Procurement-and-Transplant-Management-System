@@ -67,6 +67,19 @@ const getRecipientWaitingRank = async (recipientId) => {
   };
 };
 
+const calculateAge = (dob) => {
+  if (!dob) return 35;
+  const birthDate = new Date(dob);
+  if (isNaN(birthDate.getTime())) return 35;
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age > 0 ? age : 35;
+};
+
 /**
  * Gets ranked waiting list for a specific organ (Admin usage)
  */
@@ -74,7 +87,7 @@ const getOrganWaitingList = async (organType) => {
   let sql = `
     SELECT r.id, r.first_name, r.last_name, r.blood_group, r.required_organ, 
            r.urgency_level, r.hospital, r.city, r.state, r.status, r.created_at,
-           TIMESTAMPDIFF(YEAR, r.date_of_birth, CURDATE()) as age
+           r.date_of_birth
     FROM recipients r
     WHERE r.status IN ('WAITING', 'MATCHED')
   `;
@@ -99,6 +112,7 @@ const getOrganWaitingList = async (organType) => {
 
     return {
       ...rec,
+      age: calculateAge(rec.date_of_birth),
       daysWaiting,
       rankScore
     };
