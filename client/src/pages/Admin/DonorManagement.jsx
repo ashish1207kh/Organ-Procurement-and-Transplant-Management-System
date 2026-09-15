@@ -22,6 +22,7 @@ export default function DonorManagement() {
 
   const fetchDonors = async () => {
     setLoading(true);
+    setError('');
     try {
       const res = await api.get('/admin/donors', {
         params: {
@@ -32,12 +33,12 @@ export default function DonorManagement() {
           limit: 10
         }
       });
-      if (res.data.success) {
-        setDonors(res.data.data);
-        setTotal(res.data.pagination.total);
+      if (res.data && res.data.success) {
+        setDonors(res.data.data || []);
+        setTotal(res.data.pagination?.total || 0);
       }
     } catch (err) {
-      setError('We couldn\'t load the donor registry right now. Please try again.');
+      setError(err.response?.data?.message || 'We couldn\'t load the donor registry right now. Please try again.');
     } finally {
       setLoading(false);
     }
