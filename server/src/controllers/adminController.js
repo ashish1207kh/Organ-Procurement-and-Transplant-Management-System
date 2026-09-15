@@ -142,13 +142,25 @@ const getDonors = async (req, res, next) => {
   }
 };
 
+const calculateAge = (dob) => {
+  if (!dob) return 35;
+  const birthDate = new Date(dob);
+  if (isNaN(birthDate.getTime())) return 35;
+  const today = new Date();
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age > 0 ? age : 35;
+};
+
 // Admin Recipients Table with Search, Filter & Pagination
 const getRecipients = async (req, res, next) => {
   try {
     const { search, bloodGroup, requiredOrgan, urgency, status, page = 1, limit = 10 } = req.query;
     let sql = `
-      SELECT r.*, u.email, u.status as user_status,
-             TIMESTAMPDIFF(YEAR, r.date_of_birth, CURDATE()) as age
+      SELECT r.*, u.email, u.status as user_status
       FROM recipients r
       JOIN users u ON r.user_id = u.id
       WHERE 1=1
@@ -185,11 +197,16 @@ const getRecipients = async (req, res, next) => {
 
     const recipients = await query(sql, params);
 
-    const total = recipients.length;
+    const formatted = recipients.map(r => ({
+      ...r,
+      age: calculateAge(r.date_of_birth)
+    }));
+
+    const total = formatted.length;
     const pageNum = parseInt(page);
     const limitNum = parseInt(limit);
     const startIndex = (pageNum - 1) * limitNum;
-    const paginated = recipients.slice(startIndex, startIndex + limitNum);
+    const paginated = formatted.slice(startIndex, startIndex + limitNum);
 
     res.status(200).json({
       success: true,
