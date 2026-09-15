@@ -17,7 +17,10 @@ const formatQueryForSqlite = (sql) => {
     .replace(/ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;/gi, ';')
     .replace(/TINYINT\(1\)/gi, 'INTEGER')
     .replace(/DECIMAL\(5,2\)/gi, 'REAL')
-    .replace(/NOW\(\)/gi, "DATETIME('now')");
+    .replace(/NOW\(\)/gi, "DATETIME('now')")
+    .replace(/CURDATE\(\)/gi, "DATE('now')")
+    .replace(/GROUP_CONCAT\((.*?)\s+SEPARATOR\s+('.*?'|".*?")\)/gi, 'GROUP_CONCAT($1, $2)')
+    .replace(/TIMESTAMPDIFF\(YEAR,\s*([^,]+?),\s*(?:CURDATE\(\)|NOW\(\)|DATE\('now'\)|DATETIME\('now'\))\)/gi, "CAST((strftime('%Y', 'now') - strftime('%Y', $1)) AS INTEGER)");
   
   return sqliteSql;
 };
